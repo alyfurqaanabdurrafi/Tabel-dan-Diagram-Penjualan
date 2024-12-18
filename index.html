@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Laporan Penjualan</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .data-container, .chart-container {
+            background: #fff;
+            margin: 0 auto 40px auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+        }
+
+        .data-container {
+            overflow-x: auto; /* Jika tabel terlalu lebar, akan ada scroll horizontal */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            text-align: center;
+            padding: 8px;
+        }
+
+        th {
+            background: #e9e9e9;
+        }
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            table th, table td {
+                font-size: 0.9em;
+                padding: 6px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.2em;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Laporan Penjualan</h1>
+
+    <div class="data-container">
+        <h2>Data Penjualan per Bulan</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tahun</th>
+                    <th>Januari</th>
+                    <th>Februari</th>
+                    <th>Maret</th>
+                    <th>April</th>
+                    <th>Mei</th>
+                    <th>Juni</th>
+                    <th>Juli</th>
+                    <th>Agustus</th>
+                    <th>September</th>
+                    <th>Oktober</th>
+                    <th>November</th>
+                    <th>Desember</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2022</td>
+                    <td>4.017</td>
+                    <td>6.135</td>
+                    <td>7.091</td>
+                    <td>5.841</td>
+                    <td>5.036</td>
+                    <td>4.547</td>
+                    <td>3.467</td>
+                    <td>3.970</td>
+                    <td>6.313</td>
+                    <td>3.595</td>
+                    <td>9.207</td>
+                    <td>5.945</td>
+                </tr>
+                <tr>
+                    <td>2023</td>
+                    <td>2.416</td>
+                    <td>4.136</td>
+                    <td>7.935</td>
+                    <td>8.004</td>
+                    <td>9.505</td>
+                    <td>5.026</td>
+                    <td>6.108</td>
+                    <td>6.343</td>
+                    <td>9.404</td>
+                    <td>9.280</td>
+                    <td>9.287</td>
+                    <td>8.689</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="chart-container">
+        <canvas id="salesChart"></canvas>
+    </div>
+
+    <script>
+                const labels = [
+            'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 
+            'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+        ];
+
+        const data2022 = [4017, 6135, 7091, 5841, 5036, 4547, 3467, 3970, 6313, 3595, 9207, 5945];
+        const data2023 = [2416, 4136, 7935, 8004, 9505, 5026, 6108, 6343, 9404, 9280, 9287, 8689];
+
+        const data = {
+            labels: labels,
+            datasets: [
+                {
+                    label: '2022',
+                    data: data2022,
+                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: '2023',
+                    data: data2023,
+                    backgroundColor: 'rgba(255, 99, 132, 0.7)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }
+            ]
+        };
+
+        const config = {
+            type: 'bar',
+            data: data,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Laporan Penjualan',
+                        font: {
+                            size: 18
+                        }
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            font: {
+                                size: 14
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Bulan',
+                            font: {
+                                size: 14
+                            }
+                        },
+                        ticks: {
+                            font: {
+                                size: 12
+                            }
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Jumlah Penjualan',
+                            font: {
+                                size: 14
+                            }
+                        },
+                        ticks: {
+                            font: {
+                                size: 12
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        window.onload = () => {
+            const ctx = document.getElementById('salesChart').getContext('2d');
+            l
+            ctx.canvas.parentNode.style.height = '500px';
+            new Chart(ctx, config);
+        };
+    </script>
+
+</body>
+</html>
